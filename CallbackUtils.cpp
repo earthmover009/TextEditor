@@ -46,7 +46,7 @@ void find2_cb(Fl_Widget* w, void* v)
 	}
 
 	int pos = e->editor->insert_position();
-	int found = Globals::textbuf->search_forward(pos, e->search.c_str(), &pos);
+	int found = Globals::textbuf->search_forward(0, e->search.c_str(), &pos);
 	if (found) {
 		// Found a match; select and update the position...
 		Globals::textbuf->select(pos, pos + strlen(e->search.c_str()));

@@ -28,17 +28,17 @@ EditorWindow::EditorWindow(int width, int height, const char* title)
 
       { "&Edit", 0, 0, 0, FL_SUBMENU },
         { "&Undo",       FL_CTRL + 'z', (Fl_Callback*)undo_cb, 0, FL_MENU_DIVIDER },
-        { "Cu&t",        FL_CTRL + 'x', (Fl_Callback*)cut_cb },
-        { "&Copy",       FL_CTRL + 'c', (Fl_Callback*)copy_cb },
-        { "&Paste",      FL_CTRL + 'v', (Fl_Callback*)paste_cb },
-        { "&Delete",     0, (Fl_Callback*)delete_cb },
+        { "Cu&t",        FL_CTRL + 'x', (Fl_Callback*)cut_cb, this },
+        { "&Copy",       FL_CTRL + 'c', (Fl_Callback*)copy_cb, this },
+        { "&Paste",      FL_CTRL + 'v', (Fl_Callback*)paste_cb, this },
+        { "&Delete",     0, (Fl_Callback*)delete_cb, this },
         { 0 },
 
       { "&Search", 0, 0, 0, FL_SUBMENU },
-        { "&Find...",       FL_CTRL + 'f', (Fl_Callback*)find_cb },
-        { "F&ind Again",    FL_CTRL + 'g', (Fl_Callback*)find2_cb },
-        { "&Replace...",    FL_CTRL + 'r', (Fl_Callback*)replace_cb },
-        { "Re&place Again", FL_CTRL + 't', (Fl_Callback*)replace2_cb },
+        { "&Find...",       FL_CTRL + 'f', (Fl_Callback*)find_cb, this },
+        { "F&ind Again",    FL_CTRL + 'g', (Fl_Callback*)find2_cb, this },
+        { "&Replace...",    FL_CTRL + 'r', (Fl_Callback*)replace_cb, this },
+        { "Re&place Again", FL_CTRL + 't', (Fl_Callback*)replace2_cb, this },
         { 0 },
 
       { 0 }
