@@ -1,15 +1,17 @@
 #include<FL/Fl.h>
 #include<FL/Fl_Window.h>
-#include<FL/Fl_Text_Buffer.H>
+#include "EditorWindow.h"
 
-int            changed = 0;
-char           filename[256] = "";
-Fl_Text_Buffer* textbuf;
 
-int main()
+
+
+int main(int argc, char** argv)
 {
-    Fl_Window window(200, 200, "Window title");
+    Fl_Window* window = new EditorWindow(800, 600, "Text Editor");
 
-    window.show();
+    window->show(1, argv);
+
+    //if (argc > 1) load_file(argv[1], -1);
+
     return Fl::run();
 }
