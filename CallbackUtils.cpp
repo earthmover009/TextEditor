@@ -1,6 +1,7 @@
 #include"CallbackUtils.h"
 #include"EditorWindow.h"
 #include <FL/Fl_File_Chooser.H>
+#include<fstream>
 
 int loading = 0;
 std::string title = "";
@@ -53,7 +54,7 @@ void find2_cb(Fl_Widget* w, void* v)
 		e->editor->insert_position(pos + strlen(e->search.c_str()));
 		e->editor->show_insert_position();
 	}
-	else fl_alert("No occurrences of \'%s\' found!", e->search);
+	else fl_alert("No occurrences of \'%s\' found!", e->search.c_str());
 }
 
 void replace_cb(Fl_Widget*, void* v)
@@ -194,7 +195,17 @@ void saveas_cb()
 	char* newfile;
 
 	newfile = fl_file_chooser("Save File As?", "*", Globals::filename.c_str());
-	if (newfile != NULL) save_file(newfile);
+	
+	if (newfile != NULL)
+	{
+		if (std::ifstream(newfile))
+		{
+			int replace = fl_ask("File with name \"%s\" already exists,\n"
+				"Do you want to replace it?", newfile);
+
+			if (replace)	save_file(newfile);
+		}
+	}
 }
 
 void view_cb()
@@ -250,7 +261,7 @@ void load_file(char* newfile, int ipos) {
 
 void save_file(std::string newfile) {
 	if (Globals::textbuf->savefile(newfile.c_str()))
-		fl_alert("Error writing to file \'%s\'\n", newfile);
+		fl_alert("Error writing to file \'%s\'\n", newfile.c_str());
 	else
 		Globals::filename = newfile;
 	Globals::changed = 0;
