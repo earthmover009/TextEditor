@@ -149,6 +149,9 @@
     <ClInclude Include="CallbackUtils.h" />
     <ClInclude Include="EditorWindow.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\ankit\Desktop\icon_main.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,6 +1,7 @@
 #include "EditorWindow.h"
 #include<FL/Fl_Sys_Menu_Bar.H>
 #include<FL/Fl_Text_Buffer.H>
+#include<FL/Fl_PNG_Image.H>
 #include"CallbackUtils.h"
 
 
@@ -18,11 +19,11 @@ EditorWindow::EditorWindow(int width, int height, const char* title)
       { "&File",              0, 0, 0, FL_SUBMENU },
         { "&New File",        0, (Fl_Callback*)new_cb },
         { "&Open File...",    FL_CTRL + 'o', (Fl_Callback*)open_cb },
-        { "&Insert File...",  FL_CTRL + 'i', (Fl_Callback*)insert_cb, 0, FL_MENU_DIVIDER },
+        //{ "&Insert File...",  FL_CTRL + 'i', (Fl_Callback*)insert_cb, 0, FL_MENU_DIVIDER },
         { "&Save File",       FL_CTRL + 's', (Fl_Callback*)save_cb },
         { "Save File &As...", FL_CTRL + FL_SHIFT + 's', (Fl_Callback*)saveas_cb, 0, FL_MENU_DIVIDER },
-        { "New &View", FL_ALT + 'v', (Fl_Callback*)view_cb, 0 },
-        { "&Close View", FL_CTRL + 'w', (Fl_Callback*)close_cb, 0, FL_MENU_DIVIDER },
+        //{ "New &View", FL_ALT + 'v', (Fl_Callback*)view_cb, 0 },
+        //{ "&Close View", FL_CTRL + 'w', (Fl_Callback*)close_cb, 0, FL_MENU_DIVIDER },
         { "E&xit", FL_CTRL + 'q', (Fl_Callback*)quit_cb, 0 },
         { 0 },
 
@@ -51,10 +52,20 @@ EditorWindow::EditorWindow(int width, int height, const char* title)
     editor->buffer(Globals::textbuf );
     editor->textfont(FL_COURIER);
 
+    Globals::textbuf->canUndo(1);
     Globals::textbuf->add_modify_callback(changed_cb, this);
     Globals::textbuf->call_modify_callbacks();
 
     initialization(this);
+
+ /*   const char* icon_name = "icon_main.png";
+    Fl_PNG_Image* icon = new Fl_PNG_Image(icon_name);
+
+    int c_width = icon->w();
+    int c_height = icon->h();
+    */
+
+    this->callback(quit_cb, 0);
     
 }
 
@@ -64,8 +75,11 @@ void initialization(EditorWindow* window)
     window->replace_find = new Fl_Input(70, 10, 200, 25, "Find:");
     window->replace_with = new Fl_Input(70, 40, 200, 25, "Replace:");
     window->replace_all = new Fl_Button(10, 70, 90, 25, "Replace All");
+    window->replace_all->callback(replall_cb, window);
     window->replace_next = new Fl_Return_Button(105, 70, 120, 25, "Replace Next");
+    window->replace_next->callback(replace2_cb, window);
     window->replace_cancel = new Fl_Button(230, 70, 60, 25, "Cancel");
+    window->replace_cancel->callback(replcan_cb, window);
 }
 
 EditorWindow::~EditorWindow()

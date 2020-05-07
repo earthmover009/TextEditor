@@ -77,7 +77,7 @@ void replace2_cb(Fl_Widget*, void* v)
 	e->replace_dlg->hide();
 
 	int pos = e->editor->insert_position();
-	int found = Globals::textbuf->search_forward(pos, find, &pos);
+	int found = Globals::textbuf->search_forward(0, find, &pos);
 
 	if (found) {
 		// Found a match; update the position and replace text...
@@ -112,7 +112,7 @@ void replall_cb(Fl_Widget*, void* v)
 	// Loop through the whole string
 	for (int found = 1; found;) {
 		int pos = e->editor->insert_position();
-		found = Globals::textbuf->search_forward(pos, find, &pos);
+		found = Globals::textbuf->search_forward(0, find, &pos);
 
 		if (found) {
 			// Found a match; update the position and replace text...
@@ -181,10 +181,20 @@ void insert_cb()
 
 void save_cb()
 {
+	if (Globals::filename.empty()) {
+		// No filename - get one!
+		saveas_cb();
+		return;
+	}
+	else save_file(Globals::filename);
 }
 
 void saveas_cb()
 {
+	char* newfile;
+
+	newfile = fl_file_chooser("Save File As?", "*", Globals::filename.c_str());
+	if (newfile != NULL) save_file(newfile);
 }
 
 void view_cb()
@@ -263,7 +273,9 @@ void set_title(Fl_Window* w) {
 		else title = Globals::filename.c_str();
 	}
 
-	if (Globals::changed) title += " (modified)";
+	if (Globals::changed) title.insert(0, "*");
+
+	title += " - TextEd";
 
 	w->label(title.c_str());
 }
