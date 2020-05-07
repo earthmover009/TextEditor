@@ -198,13 +198,13 @@ void saveas_cb()
 	
 	if (newfile != NULL)
 	{
+		int replace = 1;
 		if (std::ifstream(newfile))
 		{
-			int replace = fl_ask("File with name \"%s\" already exists,\n"
+			replace = fl_ask("File with name \"%s\" already exists,\n"
 				"Do you want to replace it?", newfile);
-
-			if (replace)	save_file(newfile);
 		}
+		if (replace)	save_file(newfile);
 	}
 }
 
